@@ -9,10 +9,15 @@ import com.rest.entity.Flight;
 public class FlightService {
 
 	private FlightRepository flightRepository;
-
-	public List<Flight> getOriginDestination () {
-		List<Flight> list=(List<Flight>)this.flightRepository.findAll();
-		return list;
+	
+	public Flight getFlightBySourceDetination(String origin,String destination) {
+		Flight flight = null;
+		try {
+			flight=this.flightRepository.findBySourceDetination(origin, destination);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return flight;
 	}
 
 

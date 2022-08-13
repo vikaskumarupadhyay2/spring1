@@ -4,18 +4,35 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Flight {
 	
 	private String flightNumber;
+		
+	@JsonManagedReference
+	private Airport origin;
+	
+	@JsonManagedReference
+	private Airport destination;
 	
 	private int duration;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private Airport airport;
+
+	@Override
+	public String toString() {
+		return "Flight [flightNumber=" + flightNumber + ", origin=" + origin + ", destination=" + destination
+				+ ", duration=" + duration + "]";
+	}
+
+	public Flight(String flightNumber, Airport origin, Airport destination, int duration) {
+		super();
+		this.flightNumber = flightNumber;
+		this.origin = origin;
+		this.destination = destination;
+		this.duration = duration;
+	}
 
 	public String getFlightNumber() {
 		return flightNumber;
@@ -25,32 +42,28 @@ public class Flight {
 		this.flightNumber = flightNumber;
 	}
 
+	public Airport getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(Airport origin) {
+		this.origin = origin;
+	}
+
+	public Airport getDestination() {
+		return destination;
+	}
+
+	public void setDestination(Airport destination) {
+		this.destination = destination;
+	}
+
 	public int getDuration() {
 		return duration;
 	}
 
 	public void setDuration(int duration) {
 		this.duration = duration;
-	}
-
-	public Airport getAirport() {
-		return airport;
-	}
-
-	public void setAirport(Airport airport) {
-		this.airport = airport;
-	}
-
-	@Override
-	public String toString() {
-		return "Flight [flightNumber=" + flightNumber + ", duration=" + duration + ", airport=" + airport + "]";
-	}
-
-	public Flight(String flightNumber, int duration, Airport airport) {
-		super();
-		this.flightNumber = flightNumber;
-		this.duration = duration;
-		this.airport = airport;
 	}
 
 	public Flight() {

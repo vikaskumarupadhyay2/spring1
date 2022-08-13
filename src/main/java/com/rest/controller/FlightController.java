@@ -15,19 +15,20 @@ public class FlightController {
 
 	private FlightService flightService;
 
-	@GetMapping("/flights/OriginDestination")
-	public ResponseEntity<List<Flight>> getBooks() {
-
-		List<Flight> list = flightService.getOriginDestination();
-		if (list.size() <= 0) {
+	@GetMapping("/flight/{orgin}/{destination}")
+	public ResponseEntity<Flight> getOroginDestination(@PathVariable("origin") String origin,@PathVariable("destination") String destination) {
+		
+		Flight flight = flightService.getFlightBySourceDetination(origin,destination);
+		if (flight == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
-		return ResponseEntity.status(HttpStatus.CREATED).body(list);
+		return ResponseEntity.of(Optional.of(flight));
 	}
 
 
+
 	@GetMapping("/flight/{flightNumber}")
-	public ResponseEntity<Flight> getBook(@PathVariable("flightNumber") String flightNumber) {
+	public ResponseEntity<Flight> getFlight(@PathVariable("flightNumber") String flightNumber) {
 		Flight flight = flightService.getFlightById(flightNumber);
 		if (flight == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
